@@ -14,3 +14,5 @@ export const config = {
   // Make sure not to protect the root URL, as it would prevent users from accessing static Next.js files or Stack's /handler path
   matcher: "/protected/:path*",
 };
+
+//29:30
