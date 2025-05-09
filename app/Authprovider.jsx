@@ -1,12 +1,15 @@
 "use client";
 import { useUser } from "@stackframe/stack";
 import { useMutation } from "convex/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/convex/_generated/api";
+import { UserContext } from "./_context/UserContext";
 
 const Authprovider = ({ children }) => {
   const Createuser = useMutation(api.users.CreateUser);
   const user = useUser();
+  const [userData, setUserData] = useState();
+
   useEffect(() => {
     console.log(user);
     user && CreateNewUser();
@@ -18,8 +21,15 @@ const Authprovider = ({ children }) => {
       email: user?.primaryEmail,
     });
     console.log(result);
+    setUserData(result);
   };
-  return <div>{children}</div>;
+  return (
+    <div>
+      <UserContext.Provider value={{ userData, setUserData }}>
+        {children}
+      </UserContext.Provider>
+    </div>
+  );
 };
 
 export default Authprovider;
