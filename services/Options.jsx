@@ -21,4 +21,17 @@ export const ExpertList = [
   },
 ];
 
-//Dashboard UI list
+export const Experts = [
+  {
+    name: "Joanna",
+    avatar: "/t1.avif",
+  },
+  {
+    name: "Sallie",
+    avatar: "/t2.jpg",
+  },
+  {
+    name: "Mathhew",
+    avatar: "/t3.jpg",
+  },
+];
