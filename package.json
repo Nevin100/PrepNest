@@ -12,6 +12,8 @@
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-slot": "^1.2.2",
     "@stackframe/stack": "^2.8.11",
+    "assemblyai": "^4.12.2",
+    "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.24.1",
@@ -20,6 +22,7 @@
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "recordrtc": "^5.6.2",
     "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {

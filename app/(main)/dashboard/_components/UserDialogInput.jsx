@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -10,13 +11,36 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Experts } from "@/services/Options";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const UserDialogInput = ({ children, ExpertList }) => {
-  const [selectedExpert, setSelectedExpert] = useState();
+  const [selectedExpert, setSelectedExpert] = useState(false);
   const [topic, setTopic] = useState();
+  const createDiscussionRoom = useMutation(api.DiscussionRoom.CreateNewRoom);
+  const [loading, setloading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const router = useRouter();
+
+  const OnclickNext = async () => {
+    setloading(true);
+    const result = await createDiscussionRoom({
+      topic: topic,
+      coachingOption: ExpertList?.name,
+      expertName: selectedExpert,
+    });
+    console.log(result);
+    setloading(false);
+    setOpenDialog(false);
+    router.push("/discussion-room/" + result);
+  };
+
   return (
     <div>
-      <Dialog>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogTrigger>{children}</DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -32,6 +56,7 @@ const UserDialogInput = ({ children, ExpertList }) => {
                 <Textarea
                   placeholder="Enter your topic here"
                   className="mt-5 outline-none"
+                  onChange={(e) => setTopic(e.target.value)}
                 />
 
                 <h2 className="font-semibold text-lg mt-4 mb-3">
@@ -59,6 +84,16 @@ const UserDialogInput = ({ children, ExpertList }) => {
                       <h2 className="font-semibold text-md">{expert?.name}</h2>
                     </div>
                   ))}
+                </div>
+                <div className="flex justify-end gap-5 mt-5">
+                  <DialogClose asChild>
+                    <Button variant={"ghost"}>Cancel</Button>
+                  </DialogClose>
+
+                  <Button className="bg-primary" onClick={OnclickNext}>
+                    {loading && <LoaderCircle className="animate-spin" />}
+                    Next
+                  </Button>
                 </div>
               </div>
             </DialogDescription>
